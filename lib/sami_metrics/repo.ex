@@ -1,8 +1,26 @@
 defmodule SamiMetrics.Repo do
   use Ecto.Repo,
     otp_app: :sami_metrics,
-    adapter: Ecto.Adapters.Postgres,
-    pool_size: 10
+    adapter: Ecto.Adapters.Postgres
+
+    @replicas [
+      SamiMetrics.Repo.Replica
+    ]
+
+
+    def replica do
+      Enum.random(@replicas)
+    end
+
+
+    for repo <- @replicas do
+      defmodule repo do
+        use Ecto.Repo,
+          otp_app: :sami_metrics,
+          adapter: Ecto.Adapters.Postgres,
+          read_only: true
+      end
+    end
 
 
   # defp connection_metrics do

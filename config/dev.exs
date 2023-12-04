@@ -1,19 +1,26 @@
 import Config
 # alias SamiMetrics.Postgrex
 
-# Configure your database
-config :sami_metrics, SamiMetrics.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "sami_metrics_dev",
-  stacktrace: true,
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10,
-  parameters: [
-    {:application_name, "sami_metrics"}
-  ]
 
+repos = %{
+  SamiMetrics.Repo => "192.168.1.64",
+  SamiMetrics.Repo.Replica => "192.168.1.142"
+
+}
+# Configure your database
+for {repo, hostname} <- repos do
+  config :sami_metrics, repo,
+    username: "postgres",
+    password: "postgres",
+    hostname: hostname,
+    database: "sami_metrics_dev",
+    stacktrace: true,
+    show_sensitive_data_on_connection_error: true,
+    pool_size: 10,
+    parameters: [
+      {:application_name, "sami_metrics"}
+    ]
+  end
 # # Start the Postgrex connection
 # {:ok, _} = SamiMetrics.Postgrex.start_link(
 #   username: "postgres",
