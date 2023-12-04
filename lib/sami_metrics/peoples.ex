@@ -3,6 +3,7 @@ defmodule SamiMetrics.Peoples do
   alias SamiMetrics.Repo
   alias SamiMetrics.Peoples.People
   alias SamiMetrics.Peoples.People2
+  alias SamiMetrics.Inserting
   # alias SamiMetricsWeb.DBConnectionListener
 
 
@@ -17,24 +18,15 @@ defmodule SamiMetrics.Peoples do
         |> Map.put(:phone, person.phone)
         |> Map.put(:dob, person.dob)
         |> Repo.insert!()
+        Inserting.get_connection_info()
     end)
   end
-
-  # def insert_all_data do
-  #   query =
-  #     "INSERT INTO people2 (id, firstname, lastname, phone, dob, inserted_at, updated_at ) " <>
-  #     "SELECT id, firstname, lastname, phone, dob, inserted_at, updated_at FROM people;"
-
-  #   Ecto.Adapters.SQL.query!(Repo, query)
-  # end
-
   def delete_all_data do
     Repo.delete_all(People2)
   end
 
   def update_all_phones do
-    query = from(p in People2, update: [set: [phone: "0742570244"]])
-
+    _query = from(p in People2, update: [set: [phone: "0742570244"]])
     |> Repo.update_all([])
   end
 

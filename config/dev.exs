@@ -4,7 +4,7 @@ import Config
 # Configure your database
 config :sami_metrics, SamiMetrics.Repo,
   username: "postgres",
-  password: "123456",
+  password: "postgres",
   hostname: "localhost",
   database: "sami_metrics_dev",
   stacktrace: true,
@@ -33,7 +33,7 @@ config :sami_metrics, SamiMetrics.Repo,
 config :sami_metrics, SamiMetricsWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4005],
+  http: [ip: {127, 0, 0, 1}, port: 4090],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,

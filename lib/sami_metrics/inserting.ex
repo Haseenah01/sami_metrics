@@ -29,7 +29,7 @@ defmodule SamiMetrics.Inserting do
     # Ecto.Adapters.SQL.query!(repo, query)
      Peoples.insert_all_data()
     # Retrieve information about connections
-    _connection_info = get_connection_info()
+    #_connection_info = get_connection_info()
    # append_to_file("/home/godfrey/tests/sami_metrics/lib/connection_info.txt", connection_info)
     # Display the information
 
@@ -37,24 +37,9 @@ defmodule SamiMetrics.Inserting do
         IO.puts("Unexpected error: #{inspect(other)}")
     end
 
-
-    # # Execute an insert, update, or delete query
-    # query = "INSERT INTO people (firstname, lastname, phone, dob) VALUES (godfrey, Mutshinyane, 075-999-8090, 1999-08-28);"
-    # # query = SamiMetrics.Peoples.insert_all_data
-
-    # Ecto.Adapters.SQL.query!(repo, query)
-
-    # # Retrieve information about connections
-    # connection_info = get_connection_info()
-
-    # # Display the information
-    # IO.inspect(connection_info)
-
-     # Append the information to a text file
-
   end
 
-  defp get_connection_info() do
+  def get_connection_info() do
     query = "SELECT
     state,
     COUNT(*) AS state_count
@@ -67,34 +52,11 @@ GROUP BY
 ORDER BY
     state;"
     result = Ecto.Adapters.SQL.query!(SamiMetrics.Repo, query)
+    [["active", active], ["idle", idle]] = result.rows
 
-    # Filter connections based on their activity
-    busy_connections = Enum.filter(result.rows, &(&1[:state] != "idle"))
-    idle_connections = Enum.filter(result.rows, &(&1[:state] == "idle"))
+    File.write("connections.log", "Active: #{active} | Idle: #{idle} \n", [:append, {:delayed_write, 1000000, 20}])
 
-    # Display the number of connections and their details
-    IO.puts("Total Connections: #{length(result.rows)}")
-    IO.puts("Busy Connections: #{length(busy_connections)}")
-    IO.puts("Idle Connections: #{length(idle_connections)}")
-
-    # Display details of busy connections
-    # IO.puts("Busy Connections Details:")
-    # Enum.each(busy_connections, fn(conn) ->
-    #   conn
-    # end)
-
-    # Display details of idle connections
-    # IO.puts("Idle Connections Details:")
-    # Enum.each(idle_connections, fn(conn) ->
-    #   conn
-    # end)
-
-    # Return connection information
-    result.rows
-  end
-
-  # defp append_to_file(file_path, content) do
-  #   File.write!(file_path, content, [:append])
-  # end
+  #   # Filter connections based on their activity
+   end
 
 end
