@@ -25,68 +25,27 @@ defmodule SamiMetricsWeb.Telemetry do
     IO.inspect binding()
   end
 
-  def handle_event([:sami_metrics, :database, :get_connection_info], measurements, metadata, config) do
-    connection_info = SamiMetrics.Inserting.get_connection_info()
-    emit_connection_stats(connection_info)
+  def handle_event([:sami_metrics, :database, :get_connection_info], _measurements, _metadata, _config) do
+    _connection_info = SamiMetrics.Inserting.get_connection_info()
+    #emit_connection_stats(connection_info)
     :ok
   end
 
-  def emit_connection_stats(connection_info) do
-    :telemetry.execute(
-      [:sami_metrics, :database, :total_connections],
-      %{value: Map.get(connection_info, :total_connections, 0)}
-    )
+  # def emit_connection_stats(connection_info) do
+  #   :telemetry.execute(
+  #     [:sami_metrics, :database, :total_connections],
+  #     %{value: Map.get(connection_info, :total_connections, 0)}
+  #   )
 
-    :telemetry.execute(
-      [:sami_metrics, :database, :busy_connections],
-      %{value: Map.get(connection_info, :busy_connections, 0)}
-    )
+  #   :telemetry.execute(
+  #     [:sami_metrics, :database, :busy_connections],
+  #     %{value: Map.get(connection_info, :busy_connections, 0)}
+  #   )
 
-    :telemetry.execute(
-      [:sami_metrics, :database, :idle_connections],
-      %{value: Map.get(connection_info, :idle_connections, 0)}
-    )
-  end
-  # def handle_event([:sami_metrics, :database, :total_connections], measurements, _metadata, _config) do
-  #   count = Keyword.get(measurements, :total_connections, 0)
-  #   SamiMetricsWeb.MetricsManager.increment("sami_metrics.database.total_connections", count)
-  #   :ok
-  # end
-
-  # def handle_event([:sami_metrics, :database, :busy_connections], measurements, _metadata, _config) do
-  #   count = Keyword.get(measurements, :busy_connections, 0)
-  #   SamiMetricsWeb.MetricsManager.increment("sami_metrics.database.busy_connections", count)
-  #   :ok
-  # end
-
-  # def handle_event([:sami_metrics, :database, :idle_connections], measurements, _metadata, _config) do
-  #   count = Keyword.get(measurements, :idle_connections, 0)
-  #   SamiMetricsWeb.MetricsManager.increment("sami_metrics.database.idle_connections", count)
-  #   :ok
-  # end
-  # def handle_event([:sami_metrics, :database, :total_connections], measurements, _metadata, _config) do
-  #   total_connections = Keyword.get(measurements, :total_connections, 0)
-  #   update_metric_value(:total_connections, total_connections)
-  #   emit_telemetry(:total_connections, total_connections)
-  #   :ok
-  # end
-
-  # def handle_event([:sami_metrics, :database, :busy_connections], measurements, _metadata, _config) do
-  #   busy_connections = Keyword.get(measurements, :busy_connections, 0)
-  #   update_metric_value(:busy_connections, busy_connections)
-  #   emit_telemetry(:busy_connections, busy_connections)
-  #   :ok
-  # end
-
-  # def handle_event([:sami_metrics, :database, :idle_connections], measurements, _metadata, _config) do
-  #   idle_connections = Keyword.get(measurements, :idle_connections, 0)
-  #   update_metric_value(:idle_connections, idle_connections)
-  #   emit_telemetry(:idle_connections, idle_connections)
-  #   :ok
-  # end
-
-  # defp emit_telemetry(metric_type, value) do
-  #   :telemetry.execute([:sami_metrics, :database, metric_type], %{value: value})
+  #   :telemetry.execute(
+  #     [:sami_metrics, :database, :idle_connections],
+  #     %{value: Map.get(connection_info, :idle_connections, 0)}
+  #   )
   # end
 
   def metrics do
@@ -150,15 +109,6 @@ defmodule SamiMetricsWeb.Telemetry do
       summary("vm.total_run_queue_lengths.cpu"),
       summary("vm.total_run_queue_lengths.io"),
 
-      # Add a metric for the number of database connections
-      # summary("sami_metrics.repo.connections", unit: :count, description: "Number of database connections"),
-      # counter("sami_metrics.repo.connections.count")
-      # counter("sami_metrics.repo.pool_size.count"),
-      # counter("sami_metrics.repo.queue_size.count"),
-      # counter("sami_metrics.repo.checked_out.count")
-      # counter("sami_metrics.database.total_connections.value"),
-      # counter("sami_metrics.database.busy_connections.value"),
-      # counter("sami_metrics.database.idle_connections.value")
       summary("sami_metrics.database.total_connections", unit: :count, description: "Number of total database connections"),
     summary("sami_metrics.database.busy_connections", unit: :count, description: "Number of busy database connections"),
     summary("sami_metrics.database.idle_connections", unit: :count, description: "Number of idle database connections")
@@ -177,27 +127,5 @@ defmodule SamiMetricsWeb.Telemetry do
 
     ]
   end
-  # defp update_metric_value(metric_type, value) do
-  #   GenServer.cast(__MODULE__, {:update_metric, metric_type, value})
-  # end
 
-  # defp start_link(_) do
-  #   GenServer.start_link(__MODULE__, nil, name: __MODULE__)
-  # end
-
-  # defp init(nil) do
-  #   {:ok, %{total_connections: 0, busy_connections: 0, idle_connections: 0}}
-  # end
-
-  # defp handle_cast({:update_metric, :total_connections, value}, state) do
-  #   {:noreply, Map.put(state, :total_connections, value)}
-  # end
-
-  # defp handle_cast({:update_metric, :busy_connections, value}, state) do
-  #   {:noreply, Map.put(state, :busy_connections, value)}
-  # end
-
-  # defp handle_cast({:update_metric, :idle_connections, value}, state) do
-  #   {:noreply, Map.put(state, :idle_connections, value)}
-  # end
 end

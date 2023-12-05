@@ -4,24 +4,21 @@ defmodule SamiMetrics.Peoples do
   alias SamiMetrics.Peoples.People
   alias SamiMetrics.Peoples.People2
   alias SamiMetrics.Inserting
-  # alias SamiMetricsWeb.DBConnectionListener
+  def insert_all_data do
+    people_records = Repo.all(People)
 
+    Enum.each(people_records, fn person ->
+      %People2{} =
+        %People2{}
+        |> Map.put(:firstname, person.firstname)
+        |> Map.put(:lastname, person.lastname)
+        |> Map.put(:phone, person.phone)
+        |> Map.put(:dob, person.dob)
+        |> Repo.insert!()
 
-  # def insert_all_data do
-  #   people_records = Repo.all(People)
-
-  #   Enum.each(people_records, fn person ->
-  #     %People2{} =
-  #       %People2{}
-  #       |> Map.put(:firstname, person.firstname)
-  #       |> Map.put(:lastname, person.lastname)
-  #       |> Map.put(:phone, person.phone)
-  #       |> Map.put(:dob, person.dob)
-  #       |> Repo.insert!()
-
-  #       SamiMetrics.Inserting.get_connection_info()
-  #   end)
-  # end
+        SamiMetrics.Inserting.get_connection_info()
+    end)
+  end
   def insert_all_data(number) do
 
     people_records = Repo.all(People)
@@ -29,7 +26,7 @@ defmodule SamiMetrics.Peoples do
     limited_records =
       Enum.take(people_records, number)
 
-    task =  Enum.each(limited_records, fn person ->
+    _task =  Enum.each(limited_records, fn person ->
         Task.async(fn ->
           %People2{} =
             %People2{}
@@ -39,17 +36,11 @@ defmodule SamiMetrics.Peoples do
             |> Map.put(:dob, person.dob)
             |> Repo.insert!()
 
-          SamiMetrics.Inserting.get_connection_info()
+          Inserting.get_connection_info()
 
         end)
-        #Task.await(task, 5000)
-
       end)
-
-      # Enum.each(tasks, fn task ->
-
-      # end)
-      end
+  end
 
   # def insert_all_data do
   #   query =
@@ -64,7 +55,7 @@ defmodule SamiMetrics.Peoples do
   end
 
   def update_all_phones do
-    query = from(p in People2, update: [set: [phone: "0742570244"]])
+    _query = from(p in People2, update: [set: [phone: "0742570244"]])
 
     |> Repo.update_all([])
   end
