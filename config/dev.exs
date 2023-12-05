@@ -9,10 +9,11 @@ config :sami_metrics, SamiMetrics.Repo,
   database: "sami_metrics_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10,
+  pool_size: 20,
   parameters: [
     {:application_name, "sami_metrics"}
-  ]
+  ],
+  pool_timeout: 20_000
 
 # # Start the Postgrex connection
 # {:ok, _} = SamiMetrics.Postgrex.start_link(
@@ -33,7 +34,7 @@ config :sami_metrics, SamiMetrics.Repo,
 config :sami_metrics, SamiMetricsWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4090],
+  http: [ip: {127, 0, 0, 1}, port: 4005],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,

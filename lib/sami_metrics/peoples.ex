@@ -7,7 +7,24 @@ defmodule SamiMetrics.Peoples do
   # alias SamiMetricsWeb.DBConnectionListener
 
 
-  def insert_all_data do
+  # def insert_all_data do
+  #   people_records = Repo.all(People)
+
+  #   Enum.each(people_records, fn person ->
+  #     %People2{} =
+  #       %People2{}
+  #       |> Map.put(:firstname, person.firstname)
+  #       |> Map.put(:lastname, person.lastname)
+  #       |> Map.put(:phone, person.phone)
+  #       |> Map.put(:dob, person.dob)
+  #       |> Repo.insert!()
+
+  #       SamiMetrics.Inserting.get_connection_info()
+  #   end)
+  # end
+
+  def insert_all_data(number) do
+
     people_records = Repo.all(People)
 
     Enum.each(people_records, fn person ->
@@ -18,15 +35,24 @@ defmodule SamiMetrics.Peoples do
         |> Map.put(:phone, person.phone)
         |> Map.put(:dob, person.dob)
         |> Repo.insert!()
-        Inserting.get_connection_info()
     end)
   end
+
+  # def insert_all_data do
+  #   query =
+  #     "INSERT INTO people2 (id, firstname, lastname, phone, dob, inserted_at, updated_at ) " <>
+  #     "SELECT id, firstname, lastname, phone, dob, inserted_at, updated_at FROM people;"
+
+  #   Ecto.Adapters.SQL.query!(Repo, query)
+  # end
+
   def delete_all_data do
     Repo.delete_all(People2)
   end
 
   def update_all_phones do
-    _query = from(p in People2, update: [set: [phone: "0742570244"]])
+    query = from(p in People2, update: [set: [phone: "0742570244"]])
+
     |> Repo.update_all([])
   end
 

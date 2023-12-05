@@ -19,14 +19,14 @@ defmodule SamiMetrics.Application do
       # Start the Telemetry supervisor
       SamiMetricsWeb.Telemetry,
       # Start the Ecto repository
-      {SamiMetrics.Repo,[]},
+      SamiMetrics.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: SamiMetrics.PubSub},
-      # SamiMetricsWeb.MetricsManager,
+      #  SamiMetricsWeb.MetricsManager,
       # Start Finch
       {Finch, name: SamiMetrics.Finch},
 
-      {SamiMetrics.ConnectionMonitor, []},
+      # {SamiMetrics.ConnectionMonitor, []},
 
       # Start the Endpoint (http/https)
       SamiMetricsWeb.Endpoint

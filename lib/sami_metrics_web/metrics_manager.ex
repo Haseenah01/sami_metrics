@@ -9,7 +9,7 @@ defmodule SamiMetricsWeb.MetricsManager do
     Agent.get(__MODULE__, &(&1))
   end
 
-  def increment(metric_name, value \\ 1, count \\ 1) do
+  def increment(metric_name, _value \\ 1, count \\ 1) do
     Agent.update(__MODULE__, fn state ->
       Map.update(state, metric_name, count, &(&1 + count))
     end)
