@@ -12,8 +12,7 @@ config :sami_metrics, SamiMetrics.Repo,
   pool_size: 20,
   parameters: [
     {:application_name, "sami_metrics"}
-  ],
-  pool_timeout: 20_000
+  ]
 
 # # Start the Postgrex connection
 # {:ok, _} = SamiMetrics.Postgrex.start_link(

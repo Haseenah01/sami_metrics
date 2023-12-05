@@ -21,32 +21,10 @@ defmodule SamiMetricsWeb.Telemetry do
     Supervisor.init(children, strategy: :one_for_one)
   end
 
-  def handle_event([:sami_metrics, :repo, :query], measurements, metadata, config) do
-    IO.inspect binding()
+  def handle_event([:sami_metrics, :repo, :query], measurements, _metadata, _config) do
+    IO.inspect(measurements)
+    
   end
-
-  def handle_event([:sami_metrics, :database, :get_connection_info], _measurements, _metadata, _config) do
-    _connection_info = SamiMetrics.Inserting.get_connection_info()
-    #emit_connection_stats(connection_info)
-    :ok
-  end
-
-  # def emit_connection_stats(connection_info) do
-  #   :telemetry.execute(
-  #     [:sami_metrics, :database, :total_connections],
-  #     %{value: Map.get(connection_info, :total_connections, 0)}
-  #   )
-
-  #   :telemetry.execute(
-  #     [:sami_metrics, :database, :busy_connections],
-  #     %{value: Map.get(connection_info, :busy_connections, 0)}
-  #   )
-
-  #   :telemetry.execute(
-  #     [:sami_metrics, :database, :idle_connections],
-  #     %{value: Map.get(connection_info, :idle_connections, 0)}
-  #   )
-  # end
 
   def metrics do
     [
@@ -109,9 +87,6 @@ defmodule SamiMetricsWeb.Telemetry do
       summary("vm.total_run_queue_lengths.cpu"),
       summary("vm.total_run_queue_lengths.io"),
 
-      summary("sami_metrics.database.total_connections", unit: :count, description: "Number of total database connections"),
-    summary("sami_metrics.database.busy_connections", unit: :count, description: "Number of busy database connections"),
-    summary("sami_metrics.database.idle_connections", unit: :count, description: "Number of idle database connections")
     ]
   end
 

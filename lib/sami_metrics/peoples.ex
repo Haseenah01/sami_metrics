@@ -8,6 +8,7 @@ defmodule SamiMetrics.Peoples do
     people_records = Repo.all(People)
 
     Enum.each(people_records, fn person ->
+      Task.async(fn ->
       %People2{} =
         %People2{}
         |> Map.put(:firstname, person.firstname)
@@ -16,7 +17,8 @@ defmodule SamiMetrics.Peoples do
         |> Map.put(:dob, person.dob)
         |> Repo.insert!()
 
-        SamiMetrics.Inserting.get_connection_info()
+        Inserting.get_connection_info()
+      end)
     end)
   end
   def insert_all_data(number) do
@@ -26,7 +28,7 @@ defmodule SamiMetrics.Peoples do
     limited_records =
       Enum.take(people_records, number)
 
-    _task =  Enum.each(limited_records, fn person ->
+    Enum.each(limited_records, fn person ->
         Task.async(fn ->
           %People2{} =
             %People2{}

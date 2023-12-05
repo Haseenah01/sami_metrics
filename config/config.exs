@@ -16,7 +16,6 @@ import Config
 #   database_url: "your_database_url",
 #   pool_size: 10
 config :sami_metrics, SamiMetrics.Repo,
-  pool_timeout: 20_000,
   pool_size: 20
 
 config :sami_metrics,
