@@ -8,8 +8,6 @@ defmodule SamiMetrics.Application do
   @impl true
   def start(_type, _args) do
 
-    SamiMetricsWeb.MetricsManager.start_link()
-
     :ok = :telemetry.attach("my-app-handler-id", [:sami_metrics, :repo, :query], &SamiMetricsWeb.Telemetry.handle_event/4, %{})
     # :ok = :telemetry.attach("my-app-connection-id", [:sami_metrics, :repo, :query], &SamiMetrics.Repo.handle_event/4, %{})
   #  :ok = :telemetry.attach("ecto-pool-monitor", [:ecto], &SamiMetrics.ConnectionMonitor.handle_event/4, [])
