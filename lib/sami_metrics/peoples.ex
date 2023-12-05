@@ -94,3 +94,4 @@ defmodule SamiMetrics.Peoples do
     Repo.all(People2)
   end
 end
+end
