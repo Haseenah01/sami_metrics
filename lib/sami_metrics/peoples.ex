@@ -59,15 +59,45 @@ defmodule SamiMetrics.Peoples do
   #   Ecto.Adapters.SQL.query!(Repo, query)
   # end
 
-  def delete_all_data do
-    Repo.delete_all(People2)
+  # def delete_all_data do
+  #   Repo.delete_all(People2)
+  # end
+  def delete_all_data(number \\ :infinity) do
+    people_records =
+      Repo.all(People2)
+
+      limited_records =
+        Enum.take(people_records, number)
+
+    Enum.each(limited_records, fn person ->
+      Repo.delete_all(People2)
+    end)
   end
 
-  def update_all_phones do
-    query = from(p in People2, update: [set: [phone: "0742570244"]])
 
-    |> Repo.update_all([])
+
+  # def update_all_phones do
+  #   query = from(p in People2, update: [set: [phone: "0742570244"]])
+
+  #   |> Repo.update_all([])
+  # end
+
+  def update_all_phones(number \\ :infinity) do
+    people_records =
+      Repo.all(People2)
+      |> Enum.take(number)
+
+    Enum.each(people_records, fn person ->
+      updated_person =
+        %People2{person | phone: "0742570244"}
+        |> Repo.update!()
+
+      # You can inspect the updated_person if needed
+      IO.inspect(updated_person, label: "Updated Person")
+    end)
   end
+
+
 
   def list_peoples do
     Repo.all(People2)

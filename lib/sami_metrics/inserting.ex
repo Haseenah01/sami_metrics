@@ -127,7 +127,7 @@ def perform_insert_update_delete do
         IO.puts("Repo started successfully.")
 
     # IO.inspect(connection_info)
-      {:error, {:already_started, repo}} ->
+      {:error, {:already_started, _repo}} ->
         IO.puts("Repo is already started.")
 
 
@@ -163,7 +163,7 @@ def perform_insert_update_delete do
 
   end
 
-  defp get_connection_info() do
+  def get_connection_info() do
     query = "SELECT
     state,
     COUNT(*) AS state_count
