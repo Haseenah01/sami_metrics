@@ -4,30 +4,62 @@ defmodule SamiMetrics.Peoples do
   alias SamiMetrics.Peoples.People
   alias SamiMetrics.Peoples.People2
   alias SamiMetrics.Inserting
-  # def insert_all_data do
-  #   people_records = Repo.all(People)
 
-  #   Enum.each(people_records, fn person ->
-  #     %People2{} =
-  #       %People2{}
-  #       |> Map.put(:firstname, person.firstname)
-  #       |> Map.put(:lastname, person.lastname)
-  #       |> Map.put(:phone, person.phone)
-  #       |> Map.put(:dob, person.dob)
-  #       |> Repo.insert!()
 
-  #       SamiMetrics.Inserting.get_connection_info()
-  #   end)
+  use GenServer
+
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, nil)
+  end
+
+  def init(_) do
+    {:ok, nil}
+  end
+
+
+  def insert_all_data do
+    people_records = Repo.all(People)
+
+    Enum.each(people_records, fn person ->
+      Task.async(fn ->
+        :poolboy.transaction(:peoples, fn pid ->
+      %People2{} =
+        %People2{}
+        |> Map.put(:firstname, person.firstname)
+        |> Map.put(:lastname, person.lastname)
+        |> Map.put(:phone, person.phone)
+        |> Map.put(:dob, person.dob)
+        |> Repo.insert!()
+
+        SamiMetrics.Inserting.get_connection_info()
+    end)
+  end)
+end)
+  end
+
+  # def start_link(_) do
+  #   Supervisor.start_link(__MODULE__, nil)
   # end
-  def insert_all_data(number) do
 
+  # def init(nil) do
+  #   children = [
+  #     :poolboy.child_spec(:worker, Application.poolboy_config())
+  #   ]
+
+  #   Supervisor.init(children, strategy: :one_for_one)
+  # end
+
+
+  def insert_all_data(number) do
     people_records = Repo.all(People)
 
     limited_records =
       Enum.take(people_records, number)
 
-    _task =  Enum.each(limited_records, fn person ->
-        Task.async(fn ->
+
+    Enum.each(limited_records, fn person ->
+       Task.async(fn ->
+        :poolboy.transaction(:peoples, fn pid ->
           %People2{} =
             %People2{}
             |> Map.put(:firstname, person.firstname)
@@ -36,11 +68,14 @@ defmodule SamiMetrics.Peoples do
             |> Map.put(:dob, person.dob)
             |> Repo.insert!()
 
-          Inserting.get_connection_info()
-
+            SamiMetrics.Inserting.get_connection_info()
         end)
       end)
+     end)
+
+    # Enum.map(&Task.await/1)
   end
+
 
   # def insert_all_data do
   #   query =
@@ -50,9 +85,10 @@ defmodule SamiMetrics.Peoples do
   #   Ecto.Adapters.SQL.query!(Repo, query)
   # end
 
-  # def delete_all_data do
-  #   Repo.delete_all(People2)
-  # end
+  def delete_all do
+    Repo.delete_all(People2)
+  end
+
   def delete_all_data(number \\ :infinity) do
     people_records =
       Repo.all(People2)

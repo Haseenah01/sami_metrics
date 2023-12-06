@@ -21,32 +21,29 @@ defmodule SamiMetricsWeb.Telemetry do
     Supervisor.init(children, strategy: :one_for_one)
   end
 
-  def handle_event([:sami_metrics, :repo, :query], measurements, metadata, config) do
-    IO.inspect binding()
+  def handle_event([:sami_metrics, :repo, :query], measurements, _metadata, _config) do
+    # IO.inspect measurements
   end
 
-  def handle_event([:sami_metrics, :database, :get_connection_info], _measurements, _metadata, _config) do
-    _connection_info = SamiMetrics.Inserting.get_connection_info()
-    #emit_connection_stats(connection_info)
+  def handle_event([:sami_metrics, :repo, :query, :enqueue], _measurements, _metadata, _config) do
+    :telemetry.execute([:sami_metrics, :repo, :query, :queue_size], %{operation: :enqueue})
     :ok
   end
 
-  # def emit_connection_stats(connection_info) do
-  #   :telemetry.execute(
-  #     [:sami_metrics, :database, :total_connections],
-  #     %{value: Map.get(connection_info, :total_connections, 0)}
-  #   )
+  def handle_event([:sami_metrics, :repo, :query, :dequeue], _measurements, _metadata, _config) do
+    :telemetry.execute([:sami_metrics, :repo, :query, :queue_size], %{operation: :dequeue})
+    :ok
+  end
 
-  #   :telemetry.execute(
-  #     [:sami_metrics, :database, :busy_connections],
-  #     %{value: Map.get(connection_info, :busy_connections, 0)}
-  #   )
+  def handle_event([:sami_metrics, :repo, :query, :queue_size], measurements, _metadata, _config) do
+    enqueue_count = Map.get(measurements, :enqueue, 0)
+    dequeue_count = Map.get(measurements, :dequeue, 0)
+    queue_size = enqueue_count - dequeue_count
 
-  #   :telemetry.execute(
-  #     [:sami_metrics, :database, :idle_connections],
-  #     %{value: Map.get(connection_info, :idle_connections, 0)}
-  #   )
-  # end
+    IO.inspect "Query Queue Size: #{queue_size}"
+
+    {:ok, measurements}
+  end
 
   def metrics do
     [
@@ -103,15 +100,20 @@ defmodule SamiMetricsWeb.Telemetry do
           "The time the connection spent waiting before being checked out for the query"
       ),
 
+       # Custom metrics to track query enqueue, dequeue, and queue size
+       counter("sami_metrics.repo.query.enqueue"),
+       counter("sami_metrics.repo.query.dequeue"),
+       counter("sami_metrics.repo.query.queue_size"),
+
       # VM Metrics
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
       summary("vm.total_run_queue_lengths.total"),
       summary("vm.total_run_queue_lengths.cpu"),
-      summary("vm.total_run_queue_lengths.io"),
+      summary("vm.total_run_queue_lengths.io")
 
-      summary("sami_metrics.database.total_connections", unit: :count, description: "Number of total database connections"),
-    summary("sami_metrics.database.busy_connections", unit: :count, description: "Number of busy database connections"),
-    summary("sami_metrics.database.idle_connections", unit: :count, description: "Number of idle database connections")
+    #   summary("sami_metrics.database.total_connections", unit: :count, description: "Number of total database connections"),
+    # summary("sami_metrics.database.busy_connections", unit: :count, description: "Number of busy database connections"),
+    # summary("sami_metrics.database.idle_connections", unit: :count, description: "Number of idle database connections")
     ]
   end
 

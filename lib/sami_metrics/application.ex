@@ -5,6 +5,15 @@ defmodule SamiMetrics.Application do
 
   use Application
 
+  defp poolboy_config do
+    [
+      name: {:local, :peoples},
+      worker_module: SamiMetrics.Peoples,
+      size: 20,
+      max_overflow: 30
+    ]
+  end
+
   @impl true
   def start(_type, _args) do
 
@@ -23,7 +32,9 @@ defmodule SamiMetrics.Application do
       #  SamiMetricsWeb.MetricsManager,
       # Start Finch
       {Finch, name: SamiMetrics.Finch},
+      # SamiMetrics.Peoples,
 
+      :poolboy.child_spec(:peoples, poolboy_config()),
       # {SamiMetrics.ConnectionMonitor, []},
 
       # Start the Endpoint (http/https)
