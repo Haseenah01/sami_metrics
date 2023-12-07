@@ -39,6 +39,7 @@ defmodule SamiMetrics.Peoples do
             |> Repo.insert!()
 
           Inserting.get_connection_info()
+        
 
         end)
       end)

@@ -23,7 +23,7 @@ defmodule SamiMetricsWeb.Telemetry do
 
   def handle_event([:sami_metrics, :repo, :query], measurements, _metadata, _config) do
     IO.inspect(measurements)
-    
+    #File.write("time_metrics.log","#{measurements}\n", [:append, {:delayed_write, 1000000, 20}])
   end
 
   def metrics do

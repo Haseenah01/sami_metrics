@@ -10,8 +10,6 @@ defmodule SamiMetrics.Application do
 
     :ok = :telemetry.attach("my-app-handler-id", [:sami_metrics, :repo, :query], &SamiMetricsWeb.Telemetry.handle_event/4, %{})
 
-
-
     children = [
       # Start the Telemetry supervisor
       SamiMetricsWeb.Telemetry,
