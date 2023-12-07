@@ -9,7 +9,7 @@ config :sami_metrics, SamiMetrics.Repo,
   database: "sami_metrics_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
-  pool_size: 20,
+  pool_size: 90,
   parameters: [
     {:application_name, "sami_metrics"}
   ],

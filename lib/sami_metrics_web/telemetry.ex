@@ -25,24 +25,10 @@ defmodule SamiMetricsWeb.Telemetry do
     # IO.inspect measurements
   end
 
-  def handle_event([:sami_metrics, :repo, :query, :enqueue], _measurements, _metadata, _config) do
-    :telemetry.execute([:sami_metrics, :repo, :query, :queue_size], %{operation: :enqueue})
-    :ok
-  end
-
-  def handle_event([:sami_metrics, :repo, :query, :dequeue], _measurements, _metadata, _config) do
-    :telemetry.execute([:sami_metrics, :repo, :query, :queue_size], %{operation: :dequeue})
-    :ok
-  end
-
-  def handle_event([:sami_metrics, :repo, :query, :queue_size], measurements, _metadata, _config) do
-    enqueue_count = Map.get(measurements, :enqueue, 0)
-    dequeue_count = Map.get(measurements, :dequeue, 0)
-    queue_size = enqueue_count - dequeue_count
-
-    IO.inspect "Query Queue Size: #{queue_size}"
-
-    {:ok, measurements}
+  def handle_event([:sami_metrics, :process, :message_queue_length], _measurements, _metadata, _config) do
+    # Your logic to process the message_queue_length event
+    IO.puts("Handling message_queue_length event")
+    {:ok, _metadata}
   end
 
   def metrics do
@@ -100,10 +86,9 @@ defmodule SamiMetricsWeb.Telemetry do
           "The time the connection spent waiting before being checked out for the query"
       ),
 
-       # Custom metrics to track query enqueue, dequeue, and queue size
-       counter("sami_metrics.repo.query.enqueue"),
-       counter("sami_metrics.repo.query.dequeue"),
-       counter("sami_metrics.repo.query.queue_size"),
+      last_value("sami_metrics.process.message_queue_length",
+      unit: {:byte, :megabyte}),
+
 
       # VM Metrics
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
@@ -111,9 +96,6 @@ defmodule SamiMetricsWeb.Telemetry do
       summary("vm.total_run_queue_lengths.cpu"),
       summary("vm.total_run_queue_lengths.io")
 
-    #   summary("sami_metrics.database.total_connections", unit: :count, description: "Number of total database connections"),
-    # summary("sami_metrics.database.busy_connections", unit: :count, description: "Number of busy database connections"),
-    # summary("sami_metrics.database.idle_connections", unit: :count, description: "Number of idle database connections")
     ]
   end
 
