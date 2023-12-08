@@ -53,7 +53,7 @@ ORDER BY
       [["active", active], ["idle", idle]| _t] ->
         File.write("connections.log", "Total Connections: #{active + idle} | Active: #{active} | Idle: #{idle} \n", [:append, {:delayed_write, 1000000, 20}])
 
-      _ -> result.rows
+      _ ->
     end
   end
 end

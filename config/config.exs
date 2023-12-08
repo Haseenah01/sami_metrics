@@ -20,6 +20,17 @@ config :sami_metrics, SamiMetrics.Repo,
   queue_target: 4000, # Adjust the queue target (in milliseconds) as needed
   queue_interval: 1000
 
+
+config :logger, level: :info
+
+config :logger,
+  backends: [:console, {LoggerFileBackend, :error_log}],
+  format: "[$level] $message\n"
+
+config :logger, :error_log,
+  path: "error.log",
+  level: :debug
+
 config :sami_metrics,
   ecto_repos: [SamiMetrics.Repo]
 
