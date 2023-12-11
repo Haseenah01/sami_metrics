@@ -5,14 +5,14 @@ defmodule SamiMetrics.Application do
 
   use Application
 
-  defp poolboy_config do
-    [
-      name: {:local, :peoples},
-      worker_module: SamiMetrics.Peoples,
-      size: 20,
-      max_overflow: 1
-    ]
-  end
+  # defp poolboy_config do
+  #   [
+  #     name: {:local, :peoples},
+  #     worker_module: SamiMetrics.Peoples,
+  #     size: 20,
+  #     max_overflow: 1
+  #   ]
+  # end
 
   @impl true
   def start(_type, _args) do

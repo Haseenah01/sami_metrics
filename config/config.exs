@@ -17,9 +17,9 @@ import Config
 #   pool_size: 10
 config :sami_metrics, SamiMetrics.Repo,
   # pool_timeout: 20_000,
-  pool_size: 20,
-  queue_target: 4000, # Adjust the queue target (in milliseconds) as needed
-  queue_interval: 1000
+  pool_size: 60,
+  queue_target: 12000, # Adjust the queue target (in milliseconds) as needed
+  queue_interval: 6000
 
 config :sami_metrics,
   ecto_repos: [SamiMetrics.Repo]

@@ -3,86 +3,29 @@ defmodule SamiMetrics.Peoples do
   alias SamiMetrics.Repo
   alias SamiMetrics.Peoples.People
   alias SamiMetrics.Peoples.People2
+  alias SamiMetrics.Peoples.People3
   alias SamiMetrics.Inserting
 
+  def insert_many do
+    people_records = Repo.all(People2)
 
-  # use GenServer
+    people = Enum.map(people_records, fn person ->
+      Task.async(fn ->
+      %People3{} =
+        %People3{}
+        |> Map.put(:firstname, person.firstname)
+        |> Map.put(:lastname, person.lastname)
+        |> Map.put(:phone, person.phone)
+        |> Map.put(:dob, person.dob)
+        |> Repo.insert!()
 
-  # def start_link(_) do
-  #   GenServer.start_link(__MODULE__, nil)
-  # end
+         SamiMetrics.Inserting.get_connection_info()
+    end)
+  end)
 
-  # def init(_) do
-  #   {:ok, nil}
-  # end
-
-  # def insert_all_data do
-  #   GenServer.call(__MODULE__, :insert_all_data)
-  # end
-
-  # def poolboy_with_task do
-  #   GenServer.call(__MODULE__, :poolboy_with_task)
-  # end
-
-  # def poolboy do
-  #   GenServer.call(__MODULE__, :poolboy)
-  # end
-
-  # def handle_call(:insert_all_data, _from, _state) do
-  #   people_records = Repo.all(People)
-
-  #   people = Enum.each(people_records, fn person ->
-  #     Task.async(fn ->
-  #     %People2{} =
-  #       %People2{}
-  #       |> Map.put(:firstname, person.firstname)
-  #       |> Map.put(:lastname, person.lastname)
-  #       |> Map.put(:phone, person.phone)
-  #       |> Map.put(:dob, person.dob)
-  #       |> Repo.insert!()
-
-  #        SamiMetrics.Inserting.get_connection_info()
-  #   end)
-  # end)
-
-  # Task.await(people)
-
-  #   {:reply, :ok, nil}
-  # end
-
-  # def handle_call(:poolboy_with_task, _from, _pool) do
-  #   task =
-  #     Task.async(fn ->
-  #       :poolboy.transaction(:peoples, fn worker ->
-  #         :gen_server.call(worker, :insert_all_data)
-  #       end)
-  #     end)
-
-  #   {:reply, task, _pool}
-  # end
-
-  # def poolboy_with_task do
-  #   Task.async(fn ->
-  #     :poolboy.transaction(:peoples, fn worker ->
-  #       :gen_server.call(worker, :insert_all_data)
-  #     end)
-  #   end)
-
-  # end
-
-  # def poolboy do
-  #   :poolboy.transaction(:peoples, fn worker ->
-  #     :gen_server.call(worker, :insert_all_data)
-  #   end)
-  # end
-  # def handle_call(:poolboy, _from, _pool) do
-  #   :poolboy.transaction(:peoples, fn worker ->
-  #     :gen_server.call(worker, :insert_all_data)
-  #   end)
-
-  #   {:reply, nil, _pool}
-  # end
-
+    people
+    |> Enum.map(&Task.await(&1, :infinity))
+  end
 
   def insert do
 
@@ -128,21 +71,22 @@ defmodule SamiMetrics.Peoples do
       Enum.take(people_records, number)
 
 
-    Enum.each(limited_records, fn person ->
-       Task.async(fn ->
-        :poolboy.transaction(:peoples, fn pid ->
-          %People2{} =
-            %People2{}
-            |> Map.put(:firstname, person.firstname)
-            |> Map.put(:lastname, person.lastname)
-            |> Map.put(:phone, person.phone)
-            |> Map.put(:dob, person.dob)
-            |> Repo.insert!()
+    people = Enum.map(limited_records, fn person ->
+      Task.async(fn ->
+        %People2{} =
+          %People2{}
+          |> Map.put(:firstname, person.firstname)
+          |> Map.put(:lastname, person.lastname)
+          |> Map.put(:phone, person.phone)
+          |> Map.put(:dob, person.dob)
+          |> Repo.insert!()
 
-            SamiMetrics.Inserting.get_connection_info()
-        end)
+           SamiMetrics.Inserting.get_connection_info()
       end)
-     end)
+    end)
+
+      people
+      |> Enum.map(&Task.await(&1))
 
     # Enum.map(&Task.await/1)
   end
@@ -159,6 +103,12 @@ defmodule SamiMetrics.Peoples do
   def delete_all do
     Repo.delete_all(People2)
   end
+
+
+  def delete_all_people3 do
+    Repo.delete_all(People3)
+  end
+
 
   def delete_all_data(number \\ :infinity) do
     people_records =

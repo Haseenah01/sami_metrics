@@ -9,11 +9,11 @@ config :sami_metrics, SamiMetrics.Repo,
   database: "sami_metrics_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
-  pool_size: 20,
+  pool_size: 60,
   parameters: [
     {:application_name, "sami_metrics"}
-  ],
-  pool_timeout: 20_000
+  ]
+  # pool_timeout: 20_000
 
 # # Start the Postgrex connection
 # {:ok, _} = SamiMetrics.Postgrex.start_link(
