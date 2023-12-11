@@ -23,7 +23,7 @@ def perform_insert_update_delete do
     # query = SamiMetrics.Peoples.insert_all_data
 
     # Ecto.Adapters.SQL.query!(repo, query)
-     Peoples.insert_all_data()
+    #  Peoples.insert_all_data()
     # Retrieve information about connections
     _connection_info = get_connection_info()
 
@@ -52,6 +52,8 @@ ORDER BY
     case result.rows do
       [["active", active], ["idle", idle]| _t] ->
         File.write("connections.log", "Total Connections: #{active + idle} | Active: #{active} | Idle: #{idle} \n", [:append, {:delayed_write, 1000000, 20}])
+
+      _->
     end
   end
 end

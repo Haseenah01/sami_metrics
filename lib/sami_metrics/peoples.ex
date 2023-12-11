@@ -6,54 +6,33 @@ defmodule SamiMetrics.Peoples do
   alias SamiMetrics.Inserting
 
 
-  use GenServer
+  # use GenServer
 
-  def start_link(_) do
-    GenServer.start_link(__MODULE__, nil)
-  end
+  # def start_link(_) do
+  #   GenServer.start_link(__MODULE__, nil)
+  # end
 
-  def init(_) do
-    {:ok, nil}
-  end
-
-  def insert_all_data do
-    GenServer.call(__MODULE__, :insert_all_data)
-  end
-
-  def handle_cast(:insert_all_data, _from) do
-    people_records = Repo.all(People)
-
-    people = Enum.each(people_records, fn person ->
-      %People2{} =
-        %People2{}
-        |> Map.put(:firstname, person.firstname)
-        |> Map.put(:lastname, person.lastname)
-        |> Map.put(:phone, person.phone)
-        |> Map.put(:dob, person.dob)
-        |> Repo.insert!()
-
-         SamiMetrics.Inserting.get_connection_info()
-    end)
-
-    # :poolboy.transaction(:peoples, fn worker ->
-    #     :gen_server.call(worker, :insert_person)
-    #   end)
-
-    {:reply, :ok}
-  end
-
-
-  def poolboy do
-    :poolboy.transaction(:peoples, fn worker ->
-      :gen_server.cast(worker, :insert_all_data)
-    end)
-  end
-
+  # def init(_) do
+  #   {:ok, nil}
+  # end
 
   # def insert_all_data do
+  #   GenServer.call(__MODULE__, :insert_all_data)
+  # end
+
+  # def poolboy_with_task do
+  #   GenServer.call(__MODULE__, :poolboy_with_task)
+  # end
+
+  # def poolboy do
+  #   GenServer.call(__MODULE__, :poolboy)
+  # end
+
+  # def handle_call(:insert_all_data, _from, _state) do
   #   people_records = Repo.all(People)
 
   #   people = Enum.each(people_records, fn person ->
+  #     Task.async(fn ->
   #     %People2{} =
   #       %People2{}
   #       |> Map.put(:firstname, person.firstname)
@@ -63,11 +42,73 @@ defmodule SamiMetrics.Peoples do
   #       |> Repo.insert!()
 
   #        SamiMetrics.Inserting.get_connection_info()
-  #       # :telemetry.execute([:sami_metrics, :process, :message_queue_length], %{pid: pid})
+  #   end)
+  # end)
+
+  # Task.await(people)
+
+  #   {:reply, :ok, nil}
+  # end
+
+  # def handle_call(:poolboy_with_task, _from, _pool) do
+  #   task =
+  #     Task.async(fn ->
+  #       :poolboy.transaction(:peoples, fn worker ->
+  #         :gen_server.call(worker, :insert_all_data)
+  #       end)
+  #     end)
+
+  #   {:reply, task, _pool}
+  # end
+
+  # def poolboy_with_task do
+  #   Task.async(fn ->
+  #     :poolboy.transaction(:peoples, fn worker ->
+  #       :gen_server.call(worker, :insert_all_data)
+  #     end)
   #   end)
 
-  #   :poolboy.transaction(:peoples, fn worker -> :gen_server.call(worker, people) end)
   # end
+
+  # def poolboy do
+  #   :poolboy.transaction(:peoples, fn worker ->
+  #     :gen_server.call(worker, :insert_all_data)
+  #   end)
+  # end
+  # def handle_call(:poolboy, _from, _pool) do
+  #   :poolboy.transaction(:peoples, fn worker ->
+  #     :gen_server.call(worker, :insert_all_data)
+  #   end)
+
+  #   {:reply, nil, _pool}
+  # end
+
+
+  def insert do
+
+    {:ok, pid} = Task.Supervisor.start_link()
+
+    people_records = Repo.all(People)
+
+    people = Enum.each(people_records, fn person ->
+      Task.Supervisor.async(pid, fn ->
+      %People2{} =
+        %People2{}
+        |> Map.put(:firstname, person.firstname)
+        |> Map.put(:lastname, person.lastname)
+        |> Map.put(:phone, person.phone)
+        |> Map.put(:dob, person.dob)
+        |> Repo.insert!()
+
+         SamiMetrics.Inserting.get_connection_info()
+        # :telemetry.execute([:sami_metrics, :process, :message_queue_length], %{pid: pid})
+    end)
+  end)
+
+  Task.await(people)
+
+    # :poolboy.transaction(:peoples, fn worker -> :gen_server.call(worker, people) end)
+  end
 
   # def start_link(_) do
   #   Supervisor.start_link(__MODULE__, nil)

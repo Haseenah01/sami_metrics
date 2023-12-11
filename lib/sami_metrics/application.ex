@@ -9,8 +9,8 @@ defmodule SamiMetrics.Application do
     [
       name: {:local, :peoples},
       worker_module: SamiMetrics.Peoples,
-      size: 90,
-      max_overflow: 0
+      size: 20,
+      max_overflow: 1
     ]
   end
 
