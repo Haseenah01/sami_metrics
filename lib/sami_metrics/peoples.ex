@@ -101,13 +101,10 @@ defmodule SamiMetrics.Peoples do
         |> Repo.insert!()
 
          SamiMetrics.Inserting.get_connection_info()
-        # :telemetry.execute([:sami_metrics, :process, :message_queue_length], %{pid: pid})
     end)
   end)
 
   Task.await(people)
-
-    # :poolboy.transaction(:peoples, fn worker -> :gen_server.call(worker, people) end)
   end
 
   # def start_link(_) do

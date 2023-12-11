@@ -34,7 +34,7 @@ defmodule SamiMetrics.Application do
       {Finch, name: SamiMetrics.Finch},
       # SamiMetrics.Peoples,
 
-      :poolboy.child_spec(:peoples, poolboy_config()),
+      # :poolboy.child_spec(:peoples, poolboy_config()),
       # {SamiMetrics.ConnectionMonitor, []},
 
       # Start the Endpoint (http/https)
