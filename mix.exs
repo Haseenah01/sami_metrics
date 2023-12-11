@@ -52,7 +52,8 @@ defmodule SamiMetrics.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:ecto_psql_extras, "~> 0.7.14"},
       {:db_connection, "~> 2.6"},
-      {:poolboy, "~> 1.5"}
+      {:poolboy, "~> 1.5"},
+      {:logger_file_backend, "~> 0.0.10"}
     ]
   end
 

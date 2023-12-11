@@ -86,12 +86,12 @@ defmodule SamiMetrics.Peoples do
 
   def insert do
 
-    {:ok, pid} = Task.Supervisor.start_link()
+    # {:ok, pid} = Task.Supervisor.start_link()
 
     people_records = Repo.all(People)
 
-    people = Enum.each(people_records, fn person ->
-      Task.Supervisor.async(pid, fn ->
+    people = Enum.map(people_records, fn person ->
+      Task.async(fn ->
       %People2{} =
         %People2{}
         |> Map.put(:firstname, person.firstname)
@@ -104,7 +104,8 @@ defmodule SamiMetrics.Peoples do
     end)
   end)
 
-  Task.await(people)
+    people
+    |> Enum.map(&Task.await(&1))
   end
 
   # def start_link(_) do

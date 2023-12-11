@@ -1,0 +1,104 @@
+11:01:42.136 [info] Running SamiMetricsWeb.Endpoint with cowboy 2.10.0 at 127.0.0.1:4093 (http)
+11:01:42.136 [info] Access SamiMetricsWeb.Endpoint at http://localhost:4093
+11:01:42.716 [info] CONNECTED TO Phoenix.LiveView.Socket in 46µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "AjwnKTpba3QqGzBXCUJ2NQxAXSo-KiAXpdJDp88DbbT3Oq1jnyniUMdn", "vsn" => "2.0.0"}
+11:02:46.644 [info] CONNECTED TO Phoenix.LiveView.Socket in 38µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "AjwnKTpba3QqGzBXCUJ2NQxAXSo-KiAXpdJDp88DbbT3Oq1jnyniUMdn", "vsn" => "2.0.0"}
+11:07:01.024 [info] Running SamiMetricsWeb.Endpoint with cowboy 2.10.0 at 127.0.0.1:4093 (http)
+11:07:01.030 [info] Access SamiMetricsWeb.Endpoint at http://localhost:4093
+11:07:01.676 [info] CONNECTED TO Phoenix.LiveView.Socket in 47µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "AjwnKTpba3QqGzBXCUJ2NQxAXSo-KiAXpdJDp88DbbT3Oq1jnyniUMdn", "vsn" => "2.0.0"}
+11:08:05.684 [info] CONNECTED TO Phoenix.LiveView.Socket in 19µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "AjwnKTpba3QqGzBXCUJ2NQxAXSo-KiAXpdJDp88DbbT3Oq1jnyniUMdn", "vsn" => "2.0.0"}
+11:09:09.721 [info] CONNECTED TO Phoenix.LiveView.Socket in 419µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "AjwnKTpba3QqGzBXCUJ2NQxAXSo-KiAXpdJDp88DbbT3Oq1jnyniUMdn", "vsn" => "2.0.0"}
+11:10:07.780 [info] Running SamiMetricsWeb.Endpoint with cowboy 2.10.0 at 127.0.0.1:4093 (http)
+11:10:07.790 [info] Access SamiMetricsWeb.Endpoint at http://localhost:4093
+11:10:12.722 [info] CONNECTED TO Phoenix.LiveView.Socket in 28µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "AjwnKTpba3QqGzBXCUJ2NQxAXSo-KiAXpdJDp88DbbT3Oq1jnyniUMdn", "vsn" => "2.0.0"}
+11:12:33.512 [info] Running SamiMetricsWeb.Endpoint with cowboy 2.10.0 at 127.0.0.1:4093 (http)
+11:12:33.526 [info] Access SamiMetricsWeb.Endpoint at http://localhost:4093
+11:13:35.231 [info] CONNECTED TO Phoenix.LiveView.Socket in 23µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "AjwnKTpba3QqGzBXCUJ2NQxAXSo-KiAXpdJDp88DbbT3Oq1jnyniUMdn", "vsn" => "2.0.0"}
+11:18:08.938 [info] GET /dev/dashboard/metrics
+11:18:08.996 [info] Sent 200 in 57ms
+11:18:09.382 [info] CONNECTED TO Phoenix.LiveView.Socket in 26µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "SjsrOX1Oa0IrSRUrHkIdNjNBYwwcXx1B8cFT7-8rc0qOXqZiQxPOw8Y8", "vsn" => "2.0.0"}
+11:19:15.885 [info] CONNECTED TO Phoenix.LiveView.Socket in 38µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "SjsrOX1Oa0IrSRUrHkIdNjNBYwwcXx1B8cFT7-8rc0qOXqZiQxPOw8Y8", "vsn" => "2.0.0"}
+11:21:23.739 [info] CONNECTED TO Phoenix.LiveView.Socket in 48µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "SjsrOX1Oa0IrSRUrHkIdNjNBYwwcXx1B8cFT7-8rc0qOXqZiQxPOw8Y8", "vsn" => "2.0.0"}
+11:24:40.802 [info] GET /dev/dashboard/metrics
+11:24:40.808 [info] Sent 200 in 6ms
+11:24:41.196 [info] CONNECTED TO Phoenix.LiveView.Socket in 35µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "ChpVKnwua1olSy5WdmECbg5aZhI6Ez48xB8G6M8jm2J20RE1lcUQQtzE", "vsn" => "2.0.0"}
+11:26:15.804 [info] CONNECTED TO Phoenix.LiveView.Socket in 29µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "ChpVKnwua1olSy5WdmECbg5aZhI6Ez48xB8G6M8jm2J20RE1lcUQQtzE", "vsn" => "2.0.0"}
+11:28:07.106 [info] Running SamiMetricsWeb.Endpoint with cowboy 2.10.0 at 127.0.0.1:4093 (http)
+11:28:07.109 [info] Access SamiMetricsWeb.Endpoint at http://localhost:4093
+11:28:07.735 [info] CONNECTED TO Phoenix.LiveView.Socket in 52µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "ChpVKnwua1olSy5WdmECbg5aZhI6Ez48xB8G6M8jm2J20RE1lcUQQtzE", "vsn" => "2.0.0"}
+11:28:07.800 [info] GET /dev/dashboard/metrics
+11:28:07.941 [info] Sent 200 in 141ms
+11:28:08.358 [info] CONNECTED TO Phoenix.LiveView.Socket in 68µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "AG8nJDsFAEYLLTU7DGYTEipqaRQzEB0br7JIqfSvCTQ_JUTMHSZWXwYb", "vsn" => "2.0.0"}
+11:29:12.730 [info] CONNECTED TO Phoenix.LiveView.Socket in 22µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "AG8nJDsFAEYLLTU7DGYTEipqaRQzEB0br7JIqfSvCTQ_JUTMHSZWXwYb", "vsn" => "2.0.0"}
+11:30:16.630 [info] CONNECTED TO Phoenix.LiveView.Socket in 37µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "AG8nJDsFAEYLLTU7DGYTEipqaRQzEB0br7JIqfSvCTQ_JUTMHSZWXwYb", "vsn" => "2.0.0"}
+11:31:30.932 [info] GET /dev/dashboard/metrics
+11:31:30.957 [info] Sent 200 in 25ms
+11:31:31.392 [info] CONNECTED TO Phoenix.LiveView.Socket in 51µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "HDoAOTxUJ14-Ji8QcFYgDCBRZjYuJHY3nbmTv7tnv_Kt6egSBhUuEC2N", "vsn" => "2.0.0"}
+11:33:36.157 [info] Running SamiMetricsWeb.Endpoint with cowboy 2.10.0 at 127.0.0.1:4093 (http)
+11:33:36.165 [info] Access SamiMetricsWeb.Endpoint at http://localhost:4093
+11:33:37.716 [info] CONNECTED TO Phoenix.LiveView.Socket in 29µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "HDoAOTxUJ14-Ji8QcFYgDCBRZjYuJHY3nbmTv7tnv_Kt6egSBhUuEC2N", "vsn" => "2.0.0"}
+11:34:41.621 [info] CONNECTED TO Phoenix.LiveView.Socket in 108µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "HDoAOTxUJ14-Ji8QcFYgDCBRZjYuJHY3nbmTv7tnv_Kt6egSBhUuEC2N", "vsn" => "2.0.0"}
+11:35:44.655 [info] CONNECTED TO Phoenix.LiveView.Socket in 24µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "HDoAOTxUJ14-Ji8QcFYgDCBRZjYuJHY3nbmTv7tnv_Kt6egSBhUuEC2N", "vsn" => "2.0.0"}
+11:36:48.622 [info] CONNECTED TO Phoenix.LiveView.Socket in 33µs
+  Transport: :websocket
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "HDoAOTxUJ14-Ji8QcFYgDCBRZjYuJHY3nbmTv7tnv_Kt6egSBhUuEC2N", "vsn" => "2.0.0"}

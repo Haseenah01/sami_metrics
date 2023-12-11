@@ -24,10 +24,18 @@ config :sami_metrics, SamiMetrics.Repo,
 config :sami_metrics,
   ecto_repos: [SamiMetrics.Repo]
 
-  config :sami_metrics, SamiMetrics.Repo,
-  loggers: [{Ecto.Adapters.SQL, :log, []}]
+  # config :sami_metrics, SamiMetrics.Repo,
+  # loggers: [{Ecto.Adapters.SQL, :log, []}]
 
+  config :logger, level: :info
 
+  config :logger,
+    backends: [:console, {LoggerFileBackend, :error_log}],
+    format: "[$level] $message\n"
+
+  config :logger, :error_log,
+    path: "error.log",
+    level: :notice
   # config :sami_metrics, Repo,
   # pool: Ecto.Adapters.SQL.Sandbox
 # Configures the endpoint

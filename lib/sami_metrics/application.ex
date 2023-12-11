@@ -33,6 +33,7 @@ defmodule SamiMetrics.Application do
       # Start Finch
       {Finch, name: SamiMetrics.Finch},
       # SamiMetrics.Peoples,
+      {Task.Supervisor, name: SamiMetrics.TaskSupervisor},
 
       # :poolboy.child_spec(:peoples, poolboy_config()),
       # {SamiMetrics.ConnectionMonitor, []},
