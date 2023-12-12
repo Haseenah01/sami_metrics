@@ -7,38 +7,35 @@
 # General application configuration
 import Config
 
-# config :db_connection, SamiMetrics.Repo,
-#   telemetry_opts: [
-#     {SamiMetrics.Repo, [:pool_size, :queue_size, :checked_out]}
-#   ]
-
-# config :sami_metrics, SamiMetrics.Repo,
-#   database_url: "your_database_url",
-#   pool_size: 10
 config :sami_metrics, SamiMetrics.Repo,
-  # pool_timeout: 20_000,
   pool_size: 60,
-  queue_target: 12000, # Adjust the queue target (in milliseconds) as needed
-  queue_interval: 6000
+  queue_target: 4000,
+  queue_interval: 1000
 
 config :sami_metrics,
   ecto_repos: [SamiMetrics.Repo]
 
-  # config :sami_metrics, SamiMetrics.Repo,
-  # loggers: [{Ecto.Adapters.SQL, :log, []}]
-
-  config :logger, level: :info
+  config :logger, level: :debug
 
   config :logger,
-    backends: [:console, {LoggerFileBackend, :error_log}],
-    format: "[$level] $message\n"
+    backends: [
+      :console,
+      {LoggerFileBackend, :error_log},
+      {LoggerFileBackend, :connection_log}
+      ],
+    format: "$time [$level] $message $metadata\n",
+    metadata: :all
 
   config :logger, :error_log,
     path: "error.log",
-    level: :notice
-  # config :sami_metrics, Repo,
-  # pool: Ecto.Adapters.SQL.Sandbox
-# Configures the endpoint
+    level: :error
+
+  config :logger, :connection_log,
+  path: "connections.log",
+  level: :info
+
+
+
 config :sami_metrics, SamiMetricsWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [

@@ -1,20 +1,17 @@
 defmodule SamiMetrics.Inserting do
 
+  require Logger
+
   import Ecto.Query, warn: false
-
-   alias SamiMetrics.Peoples
-
 
 def perform_insert_update_delete do
     # Assuming you have already configured your database connection in config/dev.exs or config/prod.exs
     {:ok, _pid} = Application.ensure_all_started(:sami_metrics)
-    #{:ok, repo} = SamiMetrics.Repo.start_link()
 
     case SamiMetrics.Repo.start_link() do
       {:ok, _repo} ->
         IO.puts("Repo started successfully.")
 
-    # IO.inspect(connection_info)
       {:error, {:already_started, _repo}} ->
         IO.puts("Repo is already started.")
 
@@ -27,8 +24,7 @@ def perform_insert_update_delete do
     # Retrieve information about connections
     _connection_info = get_connection_info()
 
-
-  other ->
+    other ->
     IO.puts("Unexpected error: #{inspect(other)}")
   end
 
@@ -50,10 +46,8 @@ ORDER BY
     result = Ecto.Adapters.SQL.query!(SamiMetrics.Repo, query)
 
     case result.rows do
-      [["active", active], ["idle", idle]| _t] ->
-        File.write("connections.log", "Total Connections: #{active + idle} | Active: #{active} | Idle: #{idle} \n", [:append, {:delayed_write, 1000000, 20}])
-
-      _->
-    end
+      [["active", active], ["idle", idle]| _t] -> Logger.info(inspect("Total Connections: #{active + idle} | Active: #{active} | Idle: #{idle}"))
+      connection_stats -> Logger.info(inspect(connection_stats))
+     end
   end
 end

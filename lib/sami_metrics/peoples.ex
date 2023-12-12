@@ -4,7 +4,6 @@ defmodule SamiMetrics.Peoples do
   alias SamiMetrics.Peoples.People
   alias SamiMetrics.Peoples.People2
   alias SamiMetrics.Peoples.People3
-  alias SamiMetrics.Inserting
 
   def insert_many do
     people_records = Repo.all(People2)
@@ -29,8 +28,6 @@ defmodule SamiMetrics.Peoples do
 
   def insert do
 
-    # {:ok, pid} = Task.Supervisor.start_link()
-
     people_records = Repo.all(People)
 
     people = Enum.map(people_records, fn person ->
@@ -51,25 +48,11 @@ defmodule SamiMetrics.Peoples do
     |> Enum.map(&Task.await(&1))
   end
 
-  # def start_link(_) do
-  #   Supervisor.start_link(__MODULE__, nil)
-  # end
-
-  # def init(nil) do
-  #   children = [
-  #     :poolboy.child_spec(:worker, Application.poolboy_config())
-  #   ]
-
-  #   Supervisor.init(children, strategy: :one_for_one)
-  # end
-
-
   def insert_all_data(number) do
     people_records = Repo.all(People)
 
     limited_records =
       Enum.take(people_records, number)
-
 
     people = Enum.map(limited_records, fn person ->
       Task.async(fn ->
@@ -88,7 +71,6 @@ defmodule SamiMetrics.Peoples do
       people
       |> Enum.map(&Task.await(&1))
 
-    # Enum.map(&Task.await/1)
   end
 
 
@@ -110,40 +92,30 @@ defmodule SamiMetrics.Peoples do
   end
 
 
-  def delete_all_data(number \\ :infinity) do
-    people_records =
-      Repo.all(People2)
+  def delete_all_data(number) do
+    people_records = Repo.all(People2)
 
-      limited_records =
-        Enum.take(people_records, number)
+    limited_records = Enum.take(people_records, number)
 
-    Enum.each(limited_records, fn person ->
+    Enum.each(limited_records, fn _person ->
       Repo.delete_all(People2)
     end)
   end
 
+  # def update_all_phones(number) do
+  #   people_records =
+  #     Repo.all(People2)
+  #     |> Enum.take(number)
 
+  #   Enum.each(people_records, fn person ->
+  #     updated_person =
+  #       %People2{person | phone: "0742570244"}
+  #       |> Repo.update!()
 
-  # def update_all_phones do
-  #   query = from(p in People2, update: [set: [phone: "0742570244"]])
-
-  #   |> Repo.update_all([])
+  #     # You can inspect the updated_person if needed
+  #     IO.inspect(updated_person, label: "Updated Person")
+  #   end)
   # end
-
-  def update_all_phones(number \\ :infinity) do
-    people_records =
-      Repo.all(People2)
-      |> Enum.take(number)
-
-    Enum.each(people_records, fn person ->
-      updated_person =
-        %People2{person | phone: "0742570244"}
-        |> Repo.update!()
-
-      # You can inspect the updated_person if needed
-      IO.inspect(updated_person, label: "Updated Person")
-    end)
-  end
 
 
 
