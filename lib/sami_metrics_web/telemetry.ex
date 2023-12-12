@@ -22,7 +22,7 @@ defmodule SamiMetricsWeb.Telemetry do
   end
 
   def handle_event([:sami_metrics, :repo, :query], measurements, _metadata, _config) do
-    # IO.inspect measurements
+    IO.inspect measurements
   end
 
   def handle_event([:sami_metrics, :process, :message_queue_length], _measurements, _metadata, _config) do
