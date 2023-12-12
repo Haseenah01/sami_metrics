@@ -4,26 +4,15 @@ import Config
 # Configure your database
 config :sami_metrics, SamiMetrics.Repo,
   username: "postgres",
-  password: "123456",
+  password: "postgres",
   hostname: "localhost",
   database: "sami_metrics_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
-  pool_size: 60,
+  pool_size: 20,
   parameters: [
     {:application_name, "sami_metrics"}
   ]
-  # pool_timeout: 20_000
-
-# # Start the Postgrex connection
-# {:ok, _} = SamiMetrics.Postgrex.start_link(
-#   username: "postgres",
-#   password: "123456",
-#   hostname: "localhost",
-#   database: "sami_metrics_dev",
-#   pool_size: 10
-# )
-  # {:ok, conn} = Postgrex.start_link(db_opts)
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
