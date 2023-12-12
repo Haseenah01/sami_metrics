@@ -1,5 +1,7 @@
 defmodule SamiMetrics.Inserting do
 
+  require Logger
+
   import Ecto.Query, warn: false
 
 def perform_insert_update_delete do
@@ -44,10 +46,8 @@ ORDER BY
     result = Ecto.Adapters.SQL.query!(SamiMetrics.Repo, query)
 
     case result.rows do
-      [["active", active], ["idle", idle]| _t]
-      -> File.write("connections.log", "Total Connections: #{active + idle} | Active: #{active} | Idle: #{idle} \n", [:append, {:delayed_write, 1000000, 20}])
-
-      _-> :ok
-    end
+      [["active", active], ["idle", idle]| _t] -> Logger.info(inspect("Total Connections: #{active + idle} | Active: #{active} | Idle: #{idle}"))
+      connection_stats -> Logger.info(inspect(connection_stats))
+     end
   end
 end

@@ -18,12 +18,23 @@ config :sami_metrics,
   config :logger, level: :debug
 
   config :logger,
-    backends: [:console, {LoggerFileBackend, :error_log}],
-    format: "[$level] $message\n"
+    backends: [
+      :console,
+      {LoggerFileBackend, :error_log},
+      {LoggerFileBackend, :connection_log}
+      ],
+    format: "$time [$level] $message $metadata\n",
+    metadata: :all
 
   config :logger, :error_log,
     path: "error.log",
     level: :error
+
+  config :logger, :connection_log,
+  path: "connections.log",
+  level: :info
+
+
 
 config :sami_metrics, SamiMetricsWeb.Endpoint,
   url: [host: "localhost"],
