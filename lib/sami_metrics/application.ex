@@ -5,6 +5,15 @@ defmodule SamiMetrics.Application do
 
   use Application
 
+  defp poolboy_config do
+    [
+      name: {:local, :worker},
+      worker_module: SamiMetrics.Worker,
+      size: 10,
+      max_overflow: 0
+    ]
+  end
+
   @impl true
   def start(_type, _args) do
 
@@ -23,9 +32,10 @@ defmodule SamiMetrics.Application do
       {Task.Supervisor, name: SamiMetrics.TaskSupervisor},
 
       # Start the Endpoint (http/https)
-      SamiMetricsWeb.Endpoint
+      SamiMetricsWeb.Endpoint,
       # Start a worker by calling: SamiMetrics.Worker.start_link(arg)
       # {SamiMetrics.Worker, arg}
+      :poolboy.child_spec(:worker, poolboy_config())
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
