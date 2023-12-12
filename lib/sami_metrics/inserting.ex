@@ -48,6 +48,8 @@ ORDER BY
     case result.rows do
       [["active", active], ["idle", idle]| _t] -> Logger.info(inspect("Total Connections: #{active + idle} | Active: #{active} | Idle: #{idle}"))
       connection_stats -> Logger.info(inspect(connection_stats))
+
+      _ -> :ok
      end
   end
 end
