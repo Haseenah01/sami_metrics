@@ -36,8 +36,9 @@ defmodule SamiMetrics.Application do
       # Start a worker by calling: SamiMetrics.Worker.start_link(arg)
       # {SamiMetrics.Worker, arg}
       :poolboy.child_spec(:worker, poolboy_config()),
-      {SamiMetricsWeb.Metrics.Telemetry.ReporterState, {0,0,0}},
-      SamiMetricsWeb.Metrics.Telemetry
+      {Metrics.Telemetry.ReporterState, 0}
+      # {TelemetryCounterWeb.ReporterState,0}
+      # Metrics.Telemetry.CustomReporter
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
