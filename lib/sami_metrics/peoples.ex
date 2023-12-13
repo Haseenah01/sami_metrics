@@ -48,6 +48,7 @@ defmodule SamiMetrics.Peoples do
     |> Enum.map(&Task.await(&1))
   end
 
+
   def insert_all_data(number) do
     people_records = Repo.all(People)
 
