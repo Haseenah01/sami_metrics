@@ -1,7 +1,9 @@
 defmodule SamiMetrics.Test do
   alias SamiMetrics.Repo
   alias SamiMetrics.Peoples.People
-  
+  alias SamiMetricsWeb.Metrics
+
+
   @timeout 60000
 
   def start() do
@@ -9,6 +11,8 @@ defmodule SamiMetrics.Test do
     people_records = Repo.all(People)
     #limit = Enum.count(people_records)
     Enum.map(people_records, fn person -> do_insert_async(person)  end)
+    {total_count, _elapsed_time_ms, _} = Metrics.Telemetry.ReporterState.value()
+    Logger.info("")
     #|> Enum.each(fn task -> await_and_inspect(task) end)
   end
 
@@ -21,6 +25,7 @@ defmodule SamiMetrics.Test do
           # that might be thrown and return the worker back to poolboy in a clean manner. It also allows
           # the programmer to retrieve the error and potentially fix it.
           try do
+            Metrics.count()
             GenServer.call(pid, {:insert, person})
           catch
             e, r -> IO.inspect("poolboy transaction caught error: #{inspect(e)}, #{inspect(r)}")

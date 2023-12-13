@@ -34,7 +34,7 @@ config :sami_metrics,
   path: "connections.log",
   level: :info
 
-
+  
 
 config :sami_metrics, SamiMetricsWeb.Endpoint,
   url: [host: "localhost"],
