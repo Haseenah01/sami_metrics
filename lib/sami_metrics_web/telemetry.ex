@@ -27,6 +27,8 @@ defmodule SamiMetricsWeb.Telemetry do
 
   def metrics do
     [
+      #custom counter -> Number of queries
+      counter("metrics.count.value"),
       # Phoenix Metrics
       summary("phoenix.endpoint.start.system_time",
         unit: {:native, :millisecond}
